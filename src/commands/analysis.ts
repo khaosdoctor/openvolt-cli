@@ -119,7 +119,7 @@ async function runAnalisys(spinner: Ora, voltData: IntervalData, mixData: MixDat
     }
 
     totalConsumption += Number(voltInterval.consumption)
-    totalCarbonEmission += carbonInterval.intensity.actual
+    totalCarbonEmission += carbonInterval.intensity.actual * Number(voltInterval.consumption)
 
     // add fuel mix data
     for (const mix of mixInterval.generationmix) {
@@ -129,7 +129,7 @@ async function runAnalisys(spinner: Ora, voltData: IntervalData, mixData: MixDat
 
       fuelMixChartData.set(mix.fuel, {
         key: mix.fuel,
-        value: fuelMixChartData.get(mix.fuel)!.value + mix.perc,
+        value: fuelMixChartData.get(mix.fuel)!.value + (mix.perc * Number(voltInterval.consumption)) / 100,
         style: ervy.bg(fuelColors[mix.fuel]),
       })
     }
